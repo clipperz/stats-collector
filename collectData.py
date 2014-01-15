@@ -269,7 +269,6 @@ def doLogin(session, url, username, passphrase):
 		getUserDetailsTiming, details, toll = message_getUserDetails(session, url, sharedSecret, toll, payToll(toll))
 
 		result = {
-			'user':				C,
 			'knock':			knockTiming,
 			'connect':			connectTiming,
 			'credentialCheck':	credentialCheckTiming,
@@ -281,14 +280,14 @@ def doLogin(session, url, username, passphrase):
 			'error': str(exception)
 		}
 	print(" done")
-	return result
+	return result, C
 
 
-def collectCurrentLocationInfo():
-	return {
-		'timestamp': datetime.datetime.utcnow().isoformat(),
-		'ip': requests.get('http://ifconfig.me/ip').text.rstrip().encode("ascii")
-	}
+#def collectCurrentLocationInfo():
+#	return {
+#		'timestamp': datetime.datetime.utcnow().isoformat(),
+#		'ip': requests.get('http://ifconfig.me/ip').text.rstrip().encode("ascii")
+#	}
 
 def main (baseUrl, username, passphrase):
 	session = Session()
@@ -297,21 +296,25 @@ def main (baseUrl, username, passphrase):
 	gammaInfo =	downloadApp(session, 'gamma', baseUrl + '/gamma')
 	deltaInfo =	downloadApp(session, 'delta', baseUrl + '/delta')
 
-	connectInfo = doLogin(session, baseUrl + '/json', username, passphrase)
+	connectInfo, C = doLogin(session, baseUrl + '/json', username, passphrase)
 
-	currentLocationInfo = collectCurrentLocationInfo()
+#	currentLocationInfo = collectCurrentLocationInfo()
 
 	result = {
+		'info': {
+			'user': C
+		},
+
 		'beta':  betaInfo,
 		'gamma': gammaInfo,
 		'delta': deltaInfo,
 
-		'timing': connectInfo,
-		'info': currentLocationInfo
+		'timing': connectInfo
+#		'info': currentLocationInfo
 	}
 
 	data = json.dumps(result)
-	print("DATA: " + data)
+	print("Collected data:\n" + json.dumps(result, indent=4))
 
 #!	response = requests.post('http://collector.stats.clipperz.is/submit', data, auth=('x', AUTH_KEY))
 #	response = requests.post('http://localhost:8888/submit/0.1', data, auth=('x', AUTH_KEY))
