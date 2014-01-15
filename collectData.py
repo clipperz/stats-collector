@@ -12,9 +12,10 @@ import requests		#   pip install requests
 from requests import Request, Session
 
 AUTH_KEY = os.environ['AUTH_KEY']
-USERNAME = os.environ['USERNAME']
-PASSPHRASE = os.environ['PASSPHRASE']
-URL = os.environ['URL']
+
+USERNAME	= os.environ['USERNAME']	if 'USERNAME'	in os.environ else 'joe'
+PASSPHRASE	= os.environ['PASSPHRASE']	if 'PASSPHRASE' in os.environ else 'clipperz'
+URL			= os.environ['URL']			if 'URL'		in os.environ else 'https://clipperz.is'
 
 def md5(content):
 	hash = hashlib.md5()

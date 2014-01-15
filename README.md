@@ -24,7 +24,7 @@ In order to avoid fluding Splunk with crap data, we are asking anyone willing to
 ### SCRIPT
 
 #### CURL
-export AUTH_KEY="__FAKE__"; export URL="https://clipperz.is"; export USERNAME="joe"; export PASSPHRASE="clipperz"; python <(curl -s https://raw.github.com/clipperz/stats-collector/master/collectData.py)
+export AUTH_KEY="__FAKE__"; python <(curl -s https://raw.github.com/clipperz/stats-collector/master/collectData.py)
 
 #### WGET
-export AUTH_KEY="__FAKE__"; export URL="https://clipperz.is"; export USERNAME="joe"; export PASSPHRASE="clipperz"; python <(wget -qO- https://raw.github.com/clipperz/stats-collector/master/collectData.py)
+export AUTH_KEY="__FAKE__"; python <(wget -qO- https://raw.github.com/clipperz/stats-collector/master/collectData.py)
