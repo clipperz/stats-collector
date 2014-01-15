@@ -320,9 +320,5 @@ def main (baseUrl, username, passphrase):
 
 
 if __name__ == "__main__":
-	print("URL: " + URL)
-	print("USERNAME: " + USERNAME)
-	print("PASSPHRASE: " + PASSPHRASE)
-
-#	main(URL, USERNAME, PASSPHRASE)
+	main(URL, USERNAME, PASSPHRASE)
 
