@@ -36,6 +36,18 @@ export AUTH_KEY="__SAMPLE_KEY__"; python <(curl -s https://raw.github.com/clippe
 export AUTH_KEY="__SAMPLE_KEY__"; python <(wget -qO- https://raw.github.com/clipperz/stats-collector/master/collectData.py)
 
 ### Cron
-In order to collect data regularly, it is possible to schedule the script with `cron`; an entry like this should do the job:
+In order to collect data regularly, it is possible to schedule a simple script with `cron`.
+This is what the script looks like (you may save it with the 'collector.sh' name):
 
-*/15 * * * * export AUTH_KEY="__SAMPLE_KEY__"; python <(curl -s https://raw.github.com/clipperz/stats-collector/master/collectData.py) > /dev/null 2>&1
+	#! /bin/bash
+	
+	python <(curl -s https://raw.github.com/clipperz/stats-collector/master/collectData.py)
+
+Remember to add execution permissions:
+
+	$ chmod +x collector.sh
+
+Last step is to edit crontab ('crontab -e') to execute it.
+
+	AUTH_KEY="__SAMPLE_KEY__"
+	0/15 * * * * /home/ubuntu/collector.sh > /dev/null 2>&1
