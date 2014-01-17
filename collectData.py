@@ -317,10 +317,12 @@ def main (baseUrl, username, passphrase):
 	data = json.dumps(result)
 	print("Collected data:\n" + json.dumps(result, indent=4))
 
-#!	response = requests.post('http://collector.stats.clipperz.is/submit', data, auth=('x', AUTH_KEY))
-#	response = requests.post('http://localhost:8888/submit/0.1', data, auth=('x', AUTH_KEY))
-#	if response.status_code != 200:
-#		raise Exception("failed to submit data")
+	response = requests.post('http://collector.stats.clipperz.is/submit', data, auth=('x', AUTH_KEY))
+#	response = requests.post('http://localhost:8888/submit', data, auth=('x', AUTH_KEY))
+	if response.status_code != 200:
+		raise Exception("failed to submit data")
+
+	print("Data successfully submitted. Thanks!")
 
 
 if __name__ == "__main__":

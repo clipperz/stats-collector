@@ -16,15 +16,26 @@ Running the client
 
 The client is meant to be executed across the world, in order to understand better how the application behaves globally.
 
+## Environment
+In order to be able to execute the collector script, you need to have the 'requests' library installed.
+On a plain Ubuntu Server 12.04 LTE these are the steps required to set everything up:
+
+    $ sudo apt-get install -y python-pip
+    $ sudo pip install requests
 
 ### AUTH_KEY
 
-In order to avoid fluding Splunk with crap data, we are asking anyone willing to help us in monitoring the application to ask for an authentication key.
+In order to avoid flooding Splunk with crap data, we are asking anyone willing to help us in monitoring the application to ask for an authentication key.
 
 ### SCRIPT
 
 #### CURL
-export AUTH_KEY="__FAKE__"; python <(curl -s https://raw.github.com/clipperz/stats-collector/master/collectData.py)
+export AUTH_KEY="__SAMPLE_KEY__"; python <(curl -s https://raw.github.com/clipperz/stats-collector/master/collectData.py)
 
 #### WGET
-export AUTH_KEY="__FAKE__"; python <(wget -qO- https://raw.github.com/clipperz/stats-collector/master/collectData.py)
+export AUTH_KEY="__SAMPLE_KEY__"; python <(wget -qO- https://raw.github.com/clipperz/stats-collector/master/collectData.py)
+
+### Cron
+In order to collect data regularly, it is possible to schedule the script with `cron`; an entry like this should do the job:
+
+*/15 * * * * export AUTH_KEY="__SAMPLE_KEY__"; python <(curl -s https://raw.github.com/clipperz/stats-collector/master/collectData.py) > /dev/null 2>&1
