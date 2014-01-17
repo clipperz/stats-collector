@@ -50,10 +50,11 @@ class Collector(tornado.web.RequestHandler):
 				)
 			return result
 
-		log = "{timestamp} ip={ip}, user={user}, {app_info}{beta_info}{gamma_info}{delta_info}{timing}".format(
-			timestamp = datetime.datetime.utcnow().isoformat(),
+		log = "{timestamp}Z ip={ip}, user={user}, authDescription=\"{authDescription}\", {app_info}{beta_info}{gamma_info}{delta_info}{timing}".format(
+			timestamp = datetime.datetime.utcnow().replace(microsecond=0).isoformat(),
 			ip = ip,
 			user = values['info']['user'],
+			authDescription = self.enabledUsers[auth_key],
 			app_info	= appStats('app', values['beta']),
 
 			beta_info	= appStats('beta', values['beta']),
@@ -65,22 +66,26 @@ class Collector(tornado.web.RequestHandler):
 		print(log)
 
 		params = { 'project':PROJECT_ID, 'host':auth_key, 'sourcetype':'collector', 'source':ip }
-		print("SENDING DATA: " + json.dumps(params, indent=4))
-		print("ACCESS_TOKEN: " + ACCESS_TOKEN)
-#		response = requests.post('https://api.splunkstorm.com/1/inputs/http', log, params=params, auth=('x', ACCESS_TOKEN))
-#		if response.status_code != 200:
-#			raise Exception("problem saving data")
+#		print("SENDING DATA: " + json.dumps(params, indent=4))
+#		print("ACCESS_TOKEN: " + ACCESS_TOKEN)
+		response = requests.post('https://api.splunkstorm.com/1/inputs/http', log, params=params, auth=('x', ACCESS_TOKEN))
+		if response.status_code != 200:
+			raise Exception("problem saving data")
 
 
 	def post(self):
 		ip = self.request.headers.get('X-Forwarded-For') if 'X-Forwarded-For' in self.request.headers else self.request.headers.get('remote_addr')
+		print("IP: " + ip)
 		auth_hdr = self.request.headers.get('Authorization')
 		if (auth_hdr == None) or (not auth_hdr.startswith('Basic ')):
+			print("No authorization header found")
 			return self.notAuthorized()
 
 		auth_decoded = base64.decodestring(auth_hdr[6:])
 		username, auth_key = auth_decoded.split(':', 2)
+		print("Auth key: " + auth_key)
 		if (username != 'x') or (not auth_key in self.enabledUsers):
+			print("Auth key not found!")
 			return self.notAuthorized()
 
 		values = json.loads(self.request.body)
