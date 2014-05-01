@@ -41,7 +41,7 @@ This is what the script looks like (you may save it with the 'collector.sh' name
 
 	#! /bin/bash
 	
-	python <(curl -s https://raw.github.com/clipperz/stats-collector/master/collectData.py)
+	python <(curl -s -L https://raw.github.com/clipperz/stats-collector/master/collectData.py)
 
 Remember to add execution permissions:
 
