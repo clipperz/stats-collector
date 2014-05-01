@@ -50,4 +50,4 @@ Remember to add execution permissions:
 Last step is to edit crontab ('crontab -e') to execute it.
 
 	AUTH_KEY="__SAMPLE_KEY__"
-	0/15 * * * * /home/ubuntu/collector.sh > /dev/null 2>&1
+	*/15 * * * * /home/ubuntu/collector.sh > /dev/null 2>&1
