@@ -68,7 +68,7 @@ class Collector(tornado.web.RequestHandler):
 		params = { 'project':PROJECT_ID, 'host':auth_key, 'sourcetype':'collector', 'source':ip }
 #		print("SENDING DATA: " + json.dumps(params, indent=4))
 #		print("ACCESS_TOKEN: " + ACCESS_TOKEN)
-		response = requests.post('https://api.splunkstorm.com/1/inputs/http', log, params=params, auth=('x', ACCESS_TOKEN))
+		response = requests.post('https://api.splunkstorm.com/1/inputs/http', log, params=params, auth=('x', ACCESS_TOKEN), verify=False)
 		if response.status_code != 200:
 			raise Exception("problem saving data")
 
