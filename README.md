@@ -30,7 +30,7 @@ In order to avoid flooding Splunk with crap data, we are asking anyone willing t
 ### SCRIPT
 
 #### CURL
-export AUTH_KEY="__SAMPLE_KEY__"; python <(curl -s https://raw.github.com/clipperz/stats-collector/master/collectData.py)
+export AUTH_KEY="__SAMPLE_KEY__"; python <(curl -s -L https://raw.github.com/clipperz/stats-collector/master/collectData.py)
 
 #### WGET
 export AUTH_KEY="__SAMPLE_KEY__"; python <(wget -qO- https://raw.github.com/clipperz/stats-collector/master/collectData.py)
@@ -41,7 +41,7 @@ This is what the script looks like (you may save it with the 'collector.sh' name
 
 	#! /bin/bash
 	
-	python <(curl -s https://raw.github.com/clipperz/stats-collector/master/collectData.py)
+	python <(curl -s -L https://raw.github.com/clipperz/stats-collector/master/collectData.py)
 
 Remember to add execution permissions:
 
@@ -50,4 +50,4 @@ Remember to add execution permissions:
 Last step is to edit crontab ('crontab -e') to execute it.
 
 	AUTH_KEY="__SAMPLE_KEY__"
-	0/15 * * * * /home/ubuntu/collector.sh > /dev/null 2>&1
+	*/15 * * * * /home/ubuntu/collector.sh > /dev/null 2>&1
