@@ -248,6 +248,7 @@ def doLogin(session, url, username, passphrase):
 		start = time.time()
 		g = 2
 		n = int('115b8b692e0e045692cf280b436735c77a5a9e8a9e7ed56c965f87db5b2a2ece3', 16)
+		k = int('64398bff522814e306a97cb9bfc4364b7eed16a8c17c5208a40a2bad2933c8e', 16)
 
 		knockTiming, toll = knock(session, url)
 
@@ -259,11 +260,18 @@ def doLogin(session, url, username, passphrase):
 
 		B = int(challenge['B'], 16)
 		s = challenge['s']
-		u = dataToInt(hash(str(B)))
+		u = dataToInt(hash(str(A) + str(B)))
 		x = dataToInt(hash(('0000000000000000000000000000000000000000000000000000000000000000' + s)[-64:] + p))
-		S = pow((B - pow(g, x, n)), (a + u * x), n)
+		S = pow((B - k * pow(g, x, n)), (a + u * x), n)
 		K = stringHash(str(S))
-		M1 = stringHash(str(A) + str(B) + K)
+		M1 = stringHash(
+			"597626870978286801440197562148588907434001483655788865609375806439877501869636875571920406529" +
+			stringHash(C) +
+			str(int(s, 16)) +
+			str(A) +
+			str(B) +
+			K
+		)
 		credentialCheckTiming, info, toll = handshake_credentialCheck(session, url, M1, toll, payToll(toll))
 
 		sharedSecret = K
