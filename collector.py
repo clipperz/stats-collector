@@ -54,6 +54,7 @@ class Collector(tornado.web.RequestHandler):
 			timestamp = datetime.datetime.utcnow().replace(microsecond=0).isoformat(),
 			ip = ip,
 			user = values['info']['user'],
+			host = values['info']['host'],
 			authDescription = self.enabledUsers[auth_key],
 			app_info	= appStats('app', values['beta']),
 

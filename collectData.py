@@ -15,7 +15,7 @@ AUTH_KEY = os.environ['AUTH_KEY']
 
 USERNAME	= os.environ['USERNAME']	if 'USERNAME'	in os.environ else 'joe'
 PASSPHRASE	= os.environ['PASSPHRASE']	if 'PASSPHRASE' in os.environ else 'clipperz'
-URL			= os.environ['URL']			if 'URL'		in os.environ else 'https://clipperz.is'
+URLS		= os.environ['URLS']		if 'URLS'		in os.environ else ['https://clipperz.is', 'https://dev.clipperz.is']
 
 def md5(content):
 	hash = hashlib.md5()
@@ -311,6 +311,7 @@ def main (baseUrl, username, passphrase):
 
 	result = {
 		'info': {
+			'host': baseUrl,
 			'user': C
 		},
 
@@ -334,5 +335,5 @@ def main (baseUrl, username, passphrase):
 
 
 if __name__ == "__main__":
-	main(URL, USERNAME, PASSPHRASE)
-
+	for url in URLS:
+		main(url, USERNAME, PASSPHRASE)
