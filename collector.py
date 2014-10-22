@@ -50,7 +50,7 @@ class Collector(tornado.web.RequestHandler):
 				)
 			return result
 
-		log = "{timestamp}Z ip={ip}, user={user}, host={host}, authDescription=\"{authDescription}\", {app_info}{beta_info}{gamma_info}{delta_info}{timing}".format(
+		log = "{timestamp}Z ip={ip}, user={user}, baseUrl={host}, authDescription=\"{authDescription}\", {app_info}{beta_info}{gamma_info}{delta_info}{timing}".format(
 			timestamp = datetime.datetime.utcnow().replace(microsecond=0).isoformat(),
 			ip = ip,
 			user = values['info']['user'],
