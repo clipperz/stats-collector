@@ -15,7 +15,7 @@ AUTH_KEY = os.environ['AUTH_KEY']
 
 USERNAME	= os.environ['USERNAME']	if 'USERNAME'	in os.environ else 'joe'
 PASSPHRASE	= os.environ['PASSPHRASE']	if 'PASSPHRASE' in os.environ else 'clipperz'
-URLS		= os.environ['URLS']		if 'URLS'		in os.environ else ['https://clipperz.is', 'https://dev.clipperz.is']
+URLS		= os.environ['URLS']		if 'URLS'		in os.environ else ['https://clipperz.is', 'https://dev.clipperz.is', 'https://snapshot.clipperz.is']
 
 def md5(content):
 	hash = hashlib.md5()
@@ -329,11 +329,14 @@ def main (baseUrl, username, passphrase):
 	response = requests.post('http://collector.stats.clipperz.is/submit', data, auth=('x', AUTH_KEY))
 #	response = requests.post('http://localhost:8888/submit', data, auth=('x', AUTH_KEY))
 	if response.status_code != 200:
-		raise Exception("failed to submit data")
-
-	print("Data successfully submitted. Thanks!")
+#		raise Exception("failed to submit data")
+		print("Sorry. Failed to submit data: " + str(response.status_code))
+	else:
+		print("Data successfully submitted. Thanks!")
 
 
 if __name__ == "__main__":
 	for url in URLS:
 		main(url, USERNAME, PASSPHRASE)
+		print("....z.zz.. (waiting for about two minutes)")
+		time.sleep(111)

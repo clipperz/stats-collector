@@ -51,3 +51,15 @@ Last step is to edit crontab ('crontab -e') to execute it.
 
 	AUTH_KEY="__SAMPLE_KEY__"
 	*/15 * * * * /home/ubuntu/collector.sh > /dev/null 2>&1
+	
+### Watch
+
+In order to collect data once in a while, the `watch` command may be more convenient (not tried yet):
+
+	$ export AUTH_KEY="__SAMPLE_KEY__";
+	$ watch -n 900 python <(curl -s -L https://raw.github.com/clipperz/stats-collector/master/collectData.py)
+
+On MacOSX, where `watch` may not be available, you may use this sequence of commands
+
+	$ export AUTH_KEY="__SAMPLE_KEY__";
+	$ while :; do clear; python <(curl -s -L https://raw.github.com/clipperz/stats-collector/master/collectData.py); sleep 900; done
