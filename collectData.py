@@ -7,6 +7,7 @@ import json
 import os
 import binascii
 import datetime
+import random
 import requests		#   pip install requests
 
 from requests import Request, Session
@@ -337,6 +338,7 @@ def main (baseUrl, username, passphrase):
 
 if __name__ == "__main__":
 	for url in URLS:
+		waitingTime = int(random.random() * 5 * 60)
+		print("....z.zz.. (waiting for " + str(waitingTime) + " seconds)")
+		time.sleep(waitingTime)
 		main(url, USERNAME, PASSPHRASE)
-		print("....z.zz.. (waiting for about two minutes)")
-		time.sleep(111)
